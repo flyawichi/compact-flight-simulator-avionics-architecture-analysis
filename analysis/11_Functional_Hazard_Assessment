@@ -1,1 +1,230 @@
+# Functional Hazard Assessment
 
+## Purpose
+
+This document provides a preliminary Functional Hazard Assessment (FHA)-style analysis for the compact avionics controller architecture evaluation.
+
+The purpose is to identify controller-level functions, potential functional failure conditions, operational effects, and recommended mitigations associated with integrated avionics and independent navigator workflows.
+
+> **Note:** This document is an independent systems engineering exercise conducted within a flight simulation environment. It is not a certification-level Functional Hazard Assessment, System Safety Assessment, or aircraft-level safety analysis.
+
+---
+
+## FHA Scope
+
+This assessment focuses on the controller interaction layer between the pilot and simulated avionics systems.
+
+The scope includes:
+
+- FMS1 and FMS2 control behavior
+- Integrated avionics workflows
+- Independent navigator workflows
+- Shift mode behavior
+- Pan/zoom mode behavior
+- Cursor mode awareness
+- CDI/source control behavior
+- Controller annunciation and mode awareness
+
+The scope does not include:
+
+- Aircraft flight control systems
+- Certified aircraft avionics hardware
+- Actual navigation system integrity
+- Aircraft-level hazard classification
+- Probability assessment
+- Fault tree analysis
+- Failure modes and effects analysis
+
+---
+
+## System Context
+
+The controller is evaluated as a human-machine interface used to operate simulated avionics systems.
+
+Two primary avionics architecture types are considered:
+
+| Architecture | Example Systems | Control Model |
+|-------------|-----------------|---------------|
+| Integrated Avionics | Garmin G1000, G3000, G5000 | FMS1 and FMS2 operate as interfaces to a shared avionics system |
+| Independent Navigators | Garmin GNS430/530, GTN650/750 | FMS1 and FMS2 represent separate navigator systems |
+
+---
+
+## Function List
+
+| Function ID | Function | Description |
+|------------|----------|-------------|
+| F-001 | Navigator Selection | Allows the pilot to select whether FMS1 or FMS2 is being controlled |
+| F-002 | FMS1 Control | Allows control of Navigator 1 or the primary avionics interface |
+| F-003 | FMS2 Control | Allows control of Navigator 2 or the secondary avionics interface |
+| F-004 | CDI Source Selection | Allows selection or switching of navigation source behavior |
+| F-005 | Cursor Mode Control | Allows entry into cursor mode for editing, selection, or map interaction |
+| F-006 | Map Range Control | Allows map zoom/range adjustment |
+| F-007 | Map Pan Control | Allows map panning or map review |
+| F-008 | Shift Mode Control | Provides access to alternate or secondary controller functions |
+| F-009 | Mode Annunciation | Provides visual indication of active mode or shifted state |
+| F-010 | Architecture Profile Selection | Allows behavior to align with integrated or independent avionics architectures |
+
+---
+
+## Functional Failure Conditions
+
+| Failure Condition ID | Function | Failure Condition |
+|----------------------|----------|-------------------|
+| FC-001 | Navigator Selection | Active navigator state is ambiguous to the pilot |
+| FC-002 | FMS2 Control | FMS2 does not provide functional parity with FMS1 in independent navigator mode |
+| FC-003 | CDI Source Selection | CDI function is unavailable or inconsistent for FMS2 workflows |
+| FC-004 | Cursor Mode Control | Cursor mode is active but not clearly annunciated |
+| FC-005 | Map Range Control | Map zoom/range control is unavailable for one navigator |
+| FC-006 | Map Pan Control | Map pan behavior is unavailable or inconsistent |
+| FC-007 | Shift Mode Control | Shift mode is active but not clearly indicated |
+| FC-008 | Mode Annunciation | Controller mode state is not visible to the pilot |
+| FC-009 | Architecture Profile Selection | Controller uses integrated avionics assumptions while operating independent navigators |
+| FC-010 | Control Allocation | High-frequency IFR functions require shifted inputs unnecessarily |
+
+---
+
+## FHA Assessment Table
+
+| Function ID | Function | Failure Condition | Potential Operational Effect | Recommended Mitigation |
+|------------|----------|-------------------|------------------------------|------------------------|
+| F-001 | Navigator Selection | Active navigator state is ambiguous | Pilot may apply inputs to the wrong navigator or spend additional time verifying state | Provide clear FMS1/FMS2 annunciation |
+| F-002 | FMS1 Control | Primary navigator function unavailable | Reduced usability of primary avionics interface | Maintain complete FMS1 function mapping |
+| F-003 | FMS2 Control | FMS2 lacks parity with FMS1 | Increased workload and reduced independent navigator usability | Provide full FMS2 parity in Independent Navigator Mode |
+| F-004 | CDI Source Selection | CDI unavailable or inconsistent on FMS2 | Reduced workflow consistency and possible navigation source confusion | Implement CDI behavior for FMS2 where supported |
+| F-005 | Cursor Mode Control | Cursor mode active without annunciation | Mode awareness degradation and possible incorrect knob input | Add cursor mode LED/state feedback |
+| F-006 | Map Range Control | Map zoom unavailable for FMS2 | Increased heads-down time and reduced map usability | Implement Shift + FMS2 Pan/Zoom mode |
+| F-007 | Map Pan Control | Pan behavior unavailable or inconsistent | Reduced map review capability | Add optional pan mode using existing controls |
+| F-008 | Shift Mode Control | Shift mode active without clear indication | Increased likelihood of mode confusion | Blink selected mode LED while shift is active |
+| F-009 | Mode Annunciation | Active state not visible | Pilot must verify state through trial, memory, or display inspection | Expose and drive LED states for active modes |
+| F-010 | Architecture Profile Selection | Wrong architecture model applied | Functional mismatch between controller behavior and avionics design | Add Integrated Avionics Mode and Independent Navigator Mode |
+
+---
+
+## Effects by Architecture Type
+
+| Failure Condition | Integrated Avionics Effect | Independent Navigator Effect |
+|------------------|----------------------------|------------------------------|
+| FMS2 functional asymmetry | May be acceptable if FMS2 represents an MFD | Not acceptable because FMS2 represents a second navigator |
+| CDI unavailable on FMS2 | May be acceptable in G1000-style workflows | Creates functional inconsistency in dual navigator workflows |
+| Shift state not annunciated | Increases workload | Increases workload and may affect independent navigator control |
+| Cursor state not annunciated | Increases verification burden | May reduce confidence in FMS2 map/cursor operation |
+| Pan/Zoom unavailable on FMS2 | May be acceptable depending on display role | Reduces independent map control for Navigator 2 |
+
+---
+
+## Qualitative Effect Categories
+
+This assessment does not assign formal certification-level severity classifications.
+
+Instead, effects are described using qualitative operational categories.
+
+| Category | Description |
+|----------|-------------|
+| Usability Impact | Function is harder to use but does not prevent task completion |
+| Workload Impact | Function increases cognitive or physical workload |
+| Mode Awareness Impact | Function creates uncertainty about active controller state |
+| Workflow Impact | Function disrupts expected pilot workflow |
+| Training Transferability Impact | Function reduces similarity between simulator workflow and real cockpit workflow |
+
+---
+
+## Functional Effect Summary
+
+| Failure Condition ID | Failure Condition | Effect Category |
+|----------------------|-------------------|----------------|
+| FC-001 | Active navigator state ambiguous | Mode Awareness Impact |
+| FC-002 | FMS2 lacks parity with FMS1 | Workflow Impact |
+| FC-003 | CDI unavailable or inconsistent for FMS2 | Workflow Impact |
+| FC-004 | Cursor mode not annunciated | Mode Awareness Impact |
+| FC-005 | Map range unavailable for one navigator | Usability Impact |
+| FC-006 | Pan behavior unavailable or inconsistent | Usability Impact |
+| FC-007 | Shift mode not clearly indicated | Mode Awareness Impact |
+| FC-008 | Controller state not visible | Workload Impact |
+| FC-009 | Incorrect architecture model applied | Workflow Impact |
+| FC-010 | High-frequency IFR functions require shifted inputs | Workload Impact |
+
+---
+
+## Derived Safety-Oriented Requirements
+
+| Requirement ID | Derived Requirement | Source Failure Condition |
+|----------------|--------------------|--------------------------|
+| FHA-REQ-001 | The controller shall clearly indicate whether FMS1 or FMS2 is active | FC-001 |
+| FHA-REQ-002 | The controller shall provide FMS1/FMS2 functional parity in Independent Navigator Mode | FC-002 |
+| FHA-REQ-003 | The controller shall support CDI behavior for each navigator where supported by the avionics package | FC-003 |
+| FHA-REQ-004 | The controller shall provide cursor mode annunciation for FMS1 and FMS2 | FC-004 |
+| FHA-REQ-005 | The controller shall provide Shift + FMS1 Pan/Zoom mode | FC-005 |
+| FHA-REQ-006 | The controller shall provide Shift + FMS2 Pan/Zoom mode | FC-005 |
+| FHA-REQ-007 | The controller shall blink the selected mode LED when shift mode is active | FC-007 |
+| FHA-REQ-008 | The controller shall expose relevant LED and control states to external profiles | FC-008 |
+| FHA-REQ-009 | The controller shall support Integrated Avionics Mode and Independent Navigator Mode | FC-009 |
+| FHA-REQ-010 | The controller should prioritize high-frequency IFR functions for base-layer access where possible | FC-010 |
+
+---
+
+## Mitigation Strategy
+
+The primary mitigation is not a physical hardware redesign.
+
+The strongest near-term mitigation is to improve profile architecture and mode annunciation.
+
+### Recommended Near-Term Mitigations
+
+| Mitigation ID | Mitigation | Related Requirement |
+|--------------|------------|---------------------|
+| MIT-001 | Add Integrated Avionics Mode and Independent Navigator Mode | FHA-REQ-009 |
+| MIT-002 | Provide FMS1/FMS2 parity in Independent Navigator Mode | FHA-REQ-002 |
+| MIT-003 | Implement Shift + FMS1 Pan/Zoom mode | FHA-REQ-005 |
+| MIT-004 | Implement Shift + FMS2 Pan/Zoom mode | FHA-REQ-006 |
+| MIT-005 | Blink selected mode LED when shift mode is active | FHA-REQ-007 |
+| MIT-006 | Expose FMS and LED states to external profiles | FHA-REQ-008 |
+
+### Optional Future Mitigations
+
+| Mitigation ID | Mitigation | Purpose |
+|--------------|------------|---------|
+| MIT-007 | Add multifunction soft keys | Improve G1000-style soft-key support |
+| MIT-008 | Add five-way directional control | Improve cursor and map navigation |
+| MIT-009 | Add profile-specific labeling | Improve usability across avionics types |
+
+---
+
+## FHA Findings
+
+The primary FHA finding is that the observed issue is not a single failed function.
+
+The issue is a mismatch between:
+
+1. The controller’s current FMS1/FMS2 abstraction
+2. The operational architecture of independent navigator systems
+
+For integrated avionics systems, FMS2 may reasonably behave as an extension of FMS1.
+
+For independent navigator systems, FMS2 must behave as a complete second navigator.
+
+This distinction changes the requirements for:
+
+- CDI control
+- Cursor mode
+- Map range
+- Map pan
+- Annunciation
+- Shift-state awareness
+- Profile architecture
+
+---
+
+## FHA Conclusion
+
+This FHA-style assessment identifies functional failure conditions associated with controller abstraction, mode awareness, and independent navigator support.
+
+The analysis supports the following conclusions:
+
+1. Integrated avionics systems and independent navigator systems require different controller behavior.
+2. FMS2 must provide operational parity with FMS1 in independent navigator workflows.
+3. Shift mode and cursor/map modes require clear annunciation to support mode awareness.
+4. Shift + FMS1 and Shift + FMS2 Pan/Zoom modes should be implemented as high-priority profile improvements.
+5. Optional hardware changes may improve future capability but are not required to address the primary architecture gap.
+
+The most important safety-oriented design principle is that controller behavior should be derived from the operational architecture of the avionics system being simulated.
