@@ -74,37 +74,40 @@ Observed Result
 Certain FMS2 functions available on FMS1 are not currently exposed, creating a functional asymmetry between Navigator 1 and Navigator 2.
 
 ## Garmin GTN650/750
-Architecture Type
+
+### Architecture Type
 
 Independent Touch Navigator
 
-### System Description
+### Installation Context
 
-GTN-series navigators function as independent flight management computers. Each unit provides complete navigation and procedure management capability independent of other installed navigators.
+GTN-series units are typically installed as standalone GPS/NAV/COM navigators rather than as integrated PFD/MFD display pairs.
+
+A GTN750 or GTN650 may be installed as a single primary navigator, or it may be paired with another GTN, GNS, or NAV/COM unit depending on the aircraft configuration.
+
+Unlike a G1000 installation, the GTN does not normally provide a PFD/MFD split where FMS1 and FMS2 represent two displays within a shared avionics suite.
+
+Standby flight instrumentation is typically provided through conventional six-pack instruments, electronic standby instruments, or other backup flight instruments separate from the GTN navigator.
 
 ### Characteristics
-Self-contained flight management computer
-Independent cursor state
-Independent map state
-Independent flight planning capability
-Independent procedure management
-Independent navigation source selection
 
-### Operational Model
-
-               |                              |
-          GTN650/750 #1                  GTN650/750 #2
-             (FMS1)                         (FMS2)
-          Independent System            Independent System
-
- Independent System      Independent System
+- Self-contained flight management and navigation computer
+- Independent map state
+- Independent procedure management
+- Touchscreen-based interaction model
+- May be installed as a single unit or paired with another independent navigator
+- Does not operate as a PFD/MFD display pair like a G1000 system
 
 ### Controller Design Implication
 
-FMS2 requires complete operational parity with FMS1.
+The GTN should be treated as an independent navigator, not as part of an integrated PFD/MFD avionics suite.
 
-Any function available on Navigator 1 should be available on Navigator 2 unless restricted by the actual avionics manufacturer.
+If a second navigator is installed, FMS2 should represent that second independent navigator and should provide complete operational parity with FMS1 where supported by the aircraft and avionics package.
+
+If only one GTN is installed, FMS2 may have no corresponding second navigator function unless the aircraft provides another supported navigation unit.
 
 ### Observed Result
 
-GTN support currently exceeds equivalent GNS support, suggesting architecture-specific implementation rather than a generalized navigator abstraction.
+GTN-specific control events may operate correctly when the GTN package exposes those events, but this does not imply that the same event model applies to GNS430/530 or G1000 systems.
+
+This reinforces the need for architecture-specific controller profiles rather than a single generic FMS1/FMS2 abstraction.
