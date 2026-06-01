@@ -4,7 +4,7 @@
 
 This document evaluates the human factors implications of controller behavior when operating integrated avionics systems versus independent navigator systems.
 
-The objective is to identify how controller abstraction, mode awareness, and functional asymmetry may affect pilot workload, usability, and operational confidence during simulated instrument flight operations.
+The objective is to identify how controller abstraction, mode awareness, and functional asymmetry may affect pilot workload, usability, and operational confidence during simulated Instrument Flight Rules (IFR) operations.
 
 ---
 
@@ -52,6 +52,103 @@ Poor mode awareness can lead to incorrect control inputs and increased time spen
 
 ---
 
+## Shift Mode Awareness and Workload
+
+A key human factors concern identified during the controller evaluation is the use of shifted functions during IFR operations.
+
+Shifted functions can increase controller capability without increasing hardware size, but they also introduce a mode-awareness requirement. The pilot must know whether the controller is operating in its base state or shifted state before making an input.
+
+During high-workload IFR tasks, such as approach setup, procedure loading, CDI source management, map range changes, or cursor manipulation, uncertainty about shift-state activation may increase cognitive workload and reduce operational confidence.
+
+---
+
+## Shift Mode Annunciation
+
+When shift mode is active, the controller should provide an unmistakable visual indication.
+
+Recommended behavior:
+
+| Mode State | Recommended LED Behavior |
+|-----------|--------------------------|
+| Base Mode | LED off or steady normal state |
+| Shift Mode Active | LED blinks continuously |
+| Shift Mode Inactive | LED returns to normal state |
+
+The preferred blink rate is approximately **two times per second** while shift mode is active.
+
+This would allow the pilot to immediately recognize that shifted functions are armed without needing to verify the state through software, memory, or trial-and-error input.
+
+---
+
+## Shifted Function Workload Concern
+
+If the pilot cannot clearly determine whether shift mode is active, the following issues may occur:
+
+- Increased heads-down time
+- Increased cognitive workload
+- Incorrect function selection
+- Reduced confidence in controller state
+- Increased likelihood of mode confusion
+- Reduced training transferability during IFR procedures
+
+This issue becomes more significant when shifted functions are used for high-frequency IFR tasks.
+
+---
+
+## Control Allocation Consideration
+
+Shifted functions are useful for secondary or low-frequency tasks.
+
+However, functions that are frequently used during IFR operations should remain on the base control layer where possible.
+
+Examples of functions that should generally be available without shift activation include:
+
+- CDI source selection
+- Direct-To
+- Flight Plan
+- Procedures
+- Cursor activation
+- Map range/zoom
+- Primary navigator selection
+- Common autopilot interactions
+
+Moving high-frequency IFR functions to the base layer would reduce pilot workload and improve operational usability.
+
+---
+
+## Recommended Hardware Enhancement
+
+One potential hardware enhancement would be the addition of **eight multifunction programmable buttons**.
+
+These buttons could mimic the soft-key concept used in integrated avionics systems such as the Garmin G1000 while also supporting independent navigator workflows.
+
+Potential benefits include:
+
+- Reduced reliance on shifted functions
+- Improved direct access to high-frequency IFR functions
+- Better alignment with real avionics workflows
+- More flexible profile mapping across G1000, GNS, and GTN systems
+- Improved training transferability
+- Reduced pilot workload during procedure-heavy IFR operations
+
+---
+
+## Optional Navigation Control Enhancement
+
+An optional **five-way directional control** could further improve usability.
+
+A five-way control could support:
+
+- Map panning
+- Cursor movement
+- Menu navigation
+- Page selection
+- Confirmation or enter commands
+
+This would reduce the need to overload concentric knobs for both navigation and map manipulation tasks.
+
+---
+
 ## Workload Impact
 
 Functional asymmetry between FMS1 and FMS2 may increase pilot workload because the pilot must remember which functions are supported on each side.
@@ -63,6 +160,8 @@ Functional asymmetry between FMS1 and FMS2 may increase pilot workload because t
 | FMS2 CDI functionality is unavailable or inconsistent | Reduces predictable workflow |
 | Map zoom/pan behavior differs across avionics types | Increases configuration burden |
 | Controller behavior changes by avionics architecture | Requires profile-specific learning |
+| Shift mode state is not clearly annunciated | Increases mode verification burden |
+| Frequently used IFR functions require shifted inputs | Increases task complexity during high-workload phases of flight |
 
 ---
 
@@ -81,6 +180,8 @@ Key transferability concerns include:
 - Independent cursor mode
 - Independent map manipulation
 - Clear annunciation of active control state
+- Clear annunciation of shifted controller state
+- Base-layer access to high-frequency IFR functions
 
 ---
 
@@ -93,6 +194,8 @@ Key transferability concerns include:
 | CDI behavior differs between G1000 and GNS workflows | Increases cognitive burden |
 | GTN-specific controls may work while GNS equivalents are unavailable | Creates inconsistent user experience |
 | Controller profiles appear optimized for integrated avionics | Limits usability for independent navigator aircraft |
+| Shift mode may not provide sufficient visual annunciation | Increases risk of mode confusion |
+| High-frequency IFR functions may require shifted inputs | Increases pilot workload during time-sensitive tasks |
 
 ---
 
@@ -104,6 +207,10 @@ Key transferability concerns include:
 | Provide FMS1/FMS2 functional parity in Independent Navigator Mode | Reduces user expectation mismatch |
 | Add FMS2 cursor/map mode annunciation | Improves mode awareness |
 | Provide visual LED state feedback for active navigator modes | Reduces verification burden |
+| Add continuous blinking LED indication when shift mode is active | Improves shift-state awareness |
+| Move high-frequency IFR functions to the base control layer | Reduces workload during instrument procedures |
+| Add eight multifunction programmable buttons | Improves direct access to common avionics functions |
+| Consider an optional five-way directional control | Improves map panning and cursor navigation |
 | Support architecture-specific control profiles | Improves training transferability |
 | Document supported behavior by avionics type | Reduces user confusion |
 
@@ -118,5 +225,9 @@ The primary issue is a mismatch between the pilot’s mental model and the contr
 For integrated avionics systems, the controller model appears generally appropriate.
 
 For independent navigator systems, the controller should treat FMS1 and FMS2 as separate operational systems with equivalent functionality and independent state feedback.
+
+In addition, shifted controller functions should be clearly annunciated when active. If shift mode is active, the device should provide a continuous visual indication, preferably through a blinking LED at approximately two times per second. This would reduce ambiguity and support improved mode awareness during IFR operations.
+
+High-frequency IFR functions should be prioritized for the base control layer where possible. Additional programmable buttons and an optional five-way directional control would reduce reliance on shifted inputs, improve operational usability, and better support realistic avionics workflows.
 
 Improving this alignment would reduce pilot workload, improve mode awareness, and increase training transferability for users operating legacy and dual-navigator IFR aircraft.
