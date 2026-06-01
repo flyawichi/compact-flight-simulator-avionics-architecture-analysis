@@ -1,4 +1,5 @@
-Architecture Comparison
+# Architecture Comparison
+
 Garmin G1000
 Architecture Type
 
@@ -17,11 +18,13 @@ Shared flight plan management
 Shared CDI source management
 PFD and MFD operate as logical display interfaces to a common avionics system
 Operational Model
+          
           Shared Avionics Core
                    |
       +------------+------------+
       |                         |
    PFD (FMS1)               MFD (FMS2)
+
 Controller Design Implication
 
 A hardware controller may reasonably abstract FMS2 as an extension of FMS1 because both interfaces ultimately manipulate a common system state.
@@ -47,7 +50,9 @@ Independent map states
 Independent flight plans
 Independent procedure selection
 Independent pilot interaction workflows
+
 Operational Model
+ 
  GNS430/530 #1            GNS430/530 #2
      (FMS1)                  (FMS2)
 
