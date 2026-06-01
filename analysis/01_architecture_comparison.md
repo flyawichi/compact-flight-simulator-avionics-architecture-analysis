@@ -23,7 +23,7 @@ Operational Model
                    |
       +------------+------------+
       |                         |
-   PFD (FMS1)               MFD (FMS2)
+      PFD (FMS1)               MFD (FMS2)
 
 Controller Design Implication
 
