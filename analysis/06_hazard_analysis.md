@@ -1,5 +1,5 @@
 # Hazard Analysis
-## Preliminare Hazard Analysis
+## Preliminary Hazard Analysis
 
 Hazard ID	  |Hazard Description	                                  |Effect
 HZ-001	    |FMS2 cursor mode not annunciated	                    |Pilot uncertainty
