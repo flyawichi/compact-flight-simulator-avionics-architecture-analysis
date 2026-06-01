@@ -9,7 +9,6 @@ The purpose is to identify controller-level functions, potential functional fail
 > **Note:** This document is an independent systems engineering exercise conducted within a flight simulation environment. It is not a certification-level Functional Hazard Assessment, System Safety Assessment, or aircraft-level safety analysis.
 
 
-
 ## FHA Scope
 
 This assessment focuses on the controller interaction layer between the pilot and simulated avionics systems.
@@ -145,7 +144,6 @@ Instead, effects are described using qualitative operational categories.
 | FC-010 | High-frequency IFR functions require shifted inputs | Workload Impact |
 
 
-
 ## Derived Safety-Oriented Requirements
 
 | Requirement ID | Derived Requirement | Source Failure Condition |
@@ -160,7 +158,6 @@ Instead, effects are described using qualitative operational categories.
 | FHA-REQ-008 | The controller shall expose relevant LED and control states to external profiles | FC-008 |
 | FHA-REQ-009 | The controller shall support Integrated Avionics Mode and Independent Navigator Mode | FC-009 |
 | FHA-REQ-010 | The controller should prioritize high-frequency IFR functions for base-layer access where possible | FC-010 |
-
 
 
 ## Mitigation Strategy
@@ -189,7 +186,6 @@ The strongest near-term mitigation is to improve profile architecture and mode a
 | MIT-009 | Add profile-specific labeling | Improve usability across avionics types |
 
 
-
 ## FHA Findings
 
 The primary FHA finding is that the observed issue is not a single failed function.
@@ -212,7 +208,6 @@ This distinction changes the requirements for:
 - Annunciation
 - Shift-state awareness
 - Profile architecture
-
 
 
 ## FHA Conclusion
