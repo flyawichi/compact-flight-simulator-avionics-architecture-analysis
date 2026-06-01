@@ -103,22 +103,66 @@ Recommended parity functions include:
 - Clear/Enter behavior
 - Active navigator state indication
 
+The current physical device already provides dedicated controls for common avionics functions such as Direct-To, Menu, Flight Plan, Clear, and Enter. Therefore, the primary concern is not the absence of those physical controls, but rather whether equivalent FMS1 and FMS2 functionality is exposed across supported avionics architectures.
+
 ---
 
-## Recommendation 3: Improve Mode Annunciation
+## Recommendation 3: Implement Shift + FMS Pan/Zoom Mode
 
-The controller should provide clear visual feedback when operating in alternate or shifted control states.
+The strongest recommended functional improvement is to implement a dedicated Pan/Zoom mode using the existing shifted FMS controls.
 
-### Shift Mode Annunciation
+### Recommended Behavior
 
-When shift mode is active, the selected mode LED should blink continuously.
+| Input | Recommended Function |
+|------|----------------------|
+| Shift + FMS1 | Activate Pan/Zoom mode for Navigator 1 / FMS1 |
+| Shift + FMS2 | Activate Pan/Zoom mode for Navigator 2 / FMS2 |
+
+This approach preserves the current hardware layout while adding a high-value map control workflow.
+
+---
+
+### Default Pan/Zoom Mode Behavior
+
+When Pan/Zoom mode is activated:
+
+| Control | Recommended Function |
+|--------|----------------------|
+| Large knob left | Zoom out |
+| Large knob right | Zoom in |
+| Small knob left/right | Optional horizontal pan |
+| Large knob in Pan mode | Optional vertical pan |
+| Toggle/swap button | Optional Zoom/Pan mode switch |
+
+The base implementation should prioritize map zoom first, because map range changes are more frequently used during IFR operations than manual map panning.
+
+---
+
+### FMS1 and FMS2 Independence
+
+In Independent Navigator Mode:
+
+| Mode | Requirement |
+|------|-------------|
+| Shift + FMS1 | Controls map range/pan for Navigator 1 |
+| Shift + FMS2 | Controls map range/pan for Navigator 2 |
+
+FMS2 should not inherit reduced behavior from the integrated avionics model. In dual GNS/GTN installations, FMS2 represents a complete second navigator and should support independent map control.
+
+---
+
+## Recommendation 4: Improve Shift Mode Annunciation
+
+The controller should provide clear visual feedback when operating in shifted control states.
+
+When any shift mode is active, the selected mode LED should blink continuously.
 
 Recommended behavior:
 
 | Mode State | Recommended LED Behavior |
 |------------|--------------------------|
 | Base Mode | LED off or steady normal state |
-| Shift Mode Active | LED blinks continuously |
+| Shift Mode Active | Selected mode LED blinks continuously |
 | Shift Mode Inactive | LED returns to normal state |
 
 Preferred blink rate:
@@ -129,9 +173,11 @@ Approximately 2 blinks per second
 
 This would reduce ambiguity and help the pilot immediately recognize when shifted functions are armed.
 
+This recommendation is especially important because shifted functions may be used during high-workload IFR tasks such as approach setup, CDI source management, procedure selection, and map range changes.
+
 ---
 
-## Recommendation 4: Provide FMS Cursor and Map Mode Annunciation
+## Recommendation 5: Provide FMS Cursor and Map Mode Annunciation
 
 Cursor mode and map mode should provide clear state feedback, especially for independent navigator workflows.
 
@@ -139,16 +185,16 @@ Recommended behavior:
 
 | State | Recommended Feedback |
 |-------|----------------------|
-| FMS1 Cursor Active | FMS1 LED blinks |
-| FMS2 Cursor Active | FMS2 LED blinks |
-| FMS1 Map Mode Active | FMS1 LED or secondary indication active |
-| FMS2 Map Mode Active | FMS2 LED or secondary indication active |
+| FMS1 Cursor Active | FMS1 LED blinks or provides distinct indication |
+| FMS2 Cursor Active | FMS2 LED blinks or provides distinct indication |
+| FMS1 Map/Pan-Zoom Mode Active | FMS1 LED indicates active shifted map mode |
+| FMS2 Map/Pan-Zoom Mode Active | FMS2 LED indicates active shifted map mode |
 
 This would improve mode awareness and reduce the need for the pilot to verify controller state visually on the simulated avionics display.
 
 ---
 
-## Recommendation 5: Move High-Frequency IFR Functions to the Base Layer
+## Recommendation 6: Move High-Frequency IFR Functions to the Base Layer Where Possible
 
 Shifted functions are useful for lower-frequency or secondary tasks, but high-frequency Instrument Flight Rules (IFR) functions should remain directly accessible where possible.
 
@@ -163,43 +209,40 @@ Functions that should be prioritized for base-layer access include:
 - Primary navigator selection
 - Common autopilot interactions
 
-This would reduce pilot workload during high-task-load phases such as approach setup, missed approach preparation, procedure modification, and navigation source management.
+Since the current device already includes dedicated controls for several core avionics functions, the primary improvement should focus on preserving direct access and reducing unnecessary dependence on shifted commands for time-sensitive IFR workflows.
 
 ---
 
-## Recommendation 6: Add Eight Multifunction Programmable Buttons
+## Recommendation 7: Optional Future Hardware Enhancement — Multifunction Soft Keys
 
-A future hardware revision could benefit from the addition of eight multifunction programmable buttons.
+A future hardware revision could optionally benefit from additional multifunction programmable buttons.
 
-These buttons could mimic the soft-key concept used in integrated avionics systems such as the Garmin G1000 while also supporting independent navigator workflows.
+This is not a required fix for the current controller architecture. The more immediate recommendation is to improve profile behavior, shift-mode annunciation, and FMS1/FMS2 functional parity.
 
-### Potential Uses
+However, additional programmable buttons could improve support for integrated avionics soft-key workflows, especially Garmin G1000-style operations.
 
-| Button Group | Possible Function |
-|--------------|-------------------|
-| Soft Key 1 | CDI |
-| Soft Key 2 | OBS |
-| Soft Key 3 | Direct-To |
-| Soft Key 4 | Flight Plan |
-| Soft Key 5 | Procedures |
-| Soft Key 6 | Nearest |
-| Soft Key 7 | Clear |
-| Soft Key 8 | Enter/Menu |
+### Optional Hardware Concept
 
-### Benefits
+- Add up to eight multifunction programmable buttons
+- Support soft-key style operations
+- Allow aircraft-specific or avionics-specific labeling through profiles
+- Improve compatibility with G1000-style soft-key workflows
 
-- Reduces reliance on shifted functions
-- Improves direct access to common IFR functions
-- Supports aircraft-specific profiles
-- Improves training transferability
-- Reduces pilot workload
-- Better aligns the controller with real avionics workflows
+### Potential Benefits
+
+- Better support for G1000 soft-key operations
+- Reduced reliance on shifted functions
+- Improved direct access to profile-specific functions
+- More flexible mapping across G1000, GNS, and GTN systems
+- Reduced pilot workload during procedure-heavy IFR operations
+
+This should be treated as a future product enhancement, not a required correction for the existing device.
 
 ---
 
-## Recommendation 7: Consider a Five-Way Directional Control
+## Recommendation 8: Optional Future Hardware Enhancement — Five-Way Directional Control
 
-A five-way directional control could improve map, cursor, and menu interaction.
+A five-way directional control could optionally improve map, cursor, and menu interaction.
 
 ### Potential Functions
 
@@ -213,9 +256,11 @@ A five-way directional control could improve map, cursor, and menu interaction.
 
 A five-way control would reduce the need to overload concentric knobs for both data entry and map manipulation. This would improve usability during map review, flight plan editing, and procedure setup.
 
+This recommendation should be treated as an optional future enhancement rather than a required design change.
+
 ---
 
-## Recommendation 8: Expose LED States and Control States to External Profiles
+## Recommendation 9: Expose LED States and Control States to External Profiles
 
 The controller should expose relevant mode and LED states to external configuration tools and profiles.
 
@@ -237,7 +282,7 @@ This would allow advanced users, developers, and profile designers to create mor
 
 ---
 
-## Recommendation 9: Document Supported Behavior by Avionics Type
+## Recommendation 10: Document Supported Behavior by Avionics Type
 
 The controller documentation should clearly distinguish supported behavior by avionics architecture.
 
@@ -256,17 +301,18 @@ This would reduce user confusion and make it clear when FMS2 is functioning as a
 
 ## Summary of Recommendations
 
-| Recommendation ID | Recommendation | Primary Benefit |
-|-------------------|----------------|-----------------|
-| REC-001 | Implement architecture profiles | Aligns controller behavior with avionics architecture |
-| REC-002 | Provide FMS1/FMS2 parity in Independent Navigator Mode | Supports dual navigator workflows |
-| REC-003 | Improve shift mode annunciation | Reduces mode confusion |
-| REC-004 | Add FMS cursor/map mode annunciation | Improves mode awareness |
-| REC-005 | Move high-frequency IFR functions to the base layer | Reduces workload |
-| REC-006 | Add eight multifunction programmable buttons | Improves direct access to common functions |
-| REC-007 | Consider a five-way directional control | Improves cursor and map control |
-| REC-008 | Expose LED and control states externally | Supports advanced profiles |
-| REC-009 | Document supported behavior by avionics type | Improves user understanding |
+| Recommendation ID | Recommendation | Priority | Primary Benefit |
+|-------------------|----------------|----------|-----------------|
+| REC-001 | Implement architecture profiles | High | Aligns controller behavior with avionics architecture |
+| REC-002 | Provide FMS1/FMS2 parity in Independent Navigator Mode | High | Supports dual navigator workflows |
+| REC-003 | Implement Shift + FMS Pan/Zoom mode | High | Adds useful map control without redesigning hardware |
+| REC-004 | Improve shift mode annunciation | High | Reduces mode confusion |
+| REC-005 | Add FMS cursor/map mode annunciation | High | Improves mode awareness |
+| REC-006 | Move high-frequency IFR functions to the base layer where possible | Medium | Reduces workload |
+| REC-007 | Add multifunction programmable buttons | Optional Future Enhancement | Improves G1000 soft-key support |
+| REC-008 | Consider a five-way directional control | Optional Future Enhancement | Improves cursor and map control |
+| REC-009 | Expose LED and control states externally | Medium | Supports advanced profiles |
+| REC-010 | Document supported behavior by avionics type | Medium | Improves user understanding |
 
 ---
 
@@ -278,4 +324,11 @@ Integrated avionics systems and independent navigator installations impose diffe
 
 For independent navigator installations, FMS2 should be treated as a complete second navigator rather than a reduced-function extension of FMS1.
 
-Additional improvements such as shift mode annunciation, FMS cursor state feedback, programmable buttons, and optional directional controls would further improve mode awareness and training transferability.
+The strongest near-term recommendations do not require physical hardware redesign. They are:
+
+1. Implement Shift + FMS1 and Shift + FMS2 Pan/Zoom modes.
+2. Provide blinking LED annunciation when shift modes are active.
+3. Provide FMS1/FMS2 functional parity in Independent Navigator Mode.
+4. Expose relevant LED and control states to external profiles.
+
+Optional hardware enhancements, such as additional multifunction buttons or a five-way directional control, may improve future product capability but should not be treated as required to address the current architecture and mode-awareness findings.
