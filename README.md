@@ -8,15 +8,13 @@ The study investigates architectural differences between integrated avionics sys
 
 The objective is to identify requirements gaps, evaluate operational impacts, and propose design improvements that better align controller behavior with real-world avionics architectures and pilot workflows.
 
----
-
 ## Problem Statement
 
-During operational evaluation of the Octavi IFR-1, a functional asymmetry was observed between integrated and independent flight management system architectures.
+During operational evaluation of the Octavi IFR-1 controller, a functional asymmetry was observed between integrated avionics architectures and independent navigator architectures.
 
 The current controller abstraction successfully supports Garmin G1000 installations where FMS1 and FMS2 operate as logical extensions of a common avionics system.
 
-However, the same abstraction introduces limitations when applied to dual Garmin GNS430/530 and GTN650/750 installations, where each navigator represents an independent flight management system requiring full functional parity.
+However, dual Garmin GNS430/530 and GTN650/750 installations represent independent navigators, each requiring complete functional parity and operational independence.
 
 This difference affects:
 
@@ -24,67 +22,44 @@ This difference affects:
 - Map panning operations
 - Zoom control
 - CDI source selection
-- User feedback and annunciation
-- Controller state awareness
-
----
+- Controller annunciation
+- Pilot situational awareness
 
 ## Systems Engineering Focus Areas
 
 - Requirements Analysis
 - Functional Architecture
 - Human Factors Engineering
-- Human-Machine Interface (HMI)
-- Operational Usability
+- Human-Machine Interface Design
 - Control Allocation
 - Flight Deck Workflow Analysis
-- Safety-Oriented Interface Design
-
----
-
-## Case Study
-
-### Integrated Architecture
-
-Garmin G1000
-
-- FMS1 = Primary Flight Display (PFD)
-- FMS2 = Multi Function Display (MFD)
-- Shared avionics architecture
-- Shared state management
-
-### Independent Architecture
-
-Dual Garmin GNS430/530
-
-- GNS430 #1 = Independent Navigator
-- GNS430 #2 = Independent Navigator
-- Independent state management
-- Independent CDI functions
-- Independent cursor modes
-- Independent flight plan management
-
----
+- Operational Usability Assessment
 
 ## Current Findings
 
-1. FMS2 cursor mode behavior does not fully represent independent navigator operation.
+1. FMS2 functionality appears optimized for integrated avionics architectures.
 
-2. CDI functionality is available for FMS1 but not consistently exposed for FMS2.
+2. Dual GNS430/530 installations require independent navigator support.
 
-3. GTN750-specific map functions operate correctly while equivalent GNS430/530 functions are not always available.
+3. GTN750 map functions are available while equivalent GNS430/530 support appears limited.
 
-4. Current controller abstraction appears optimized for integrated avionics architectures.
+4. Cursor mode state awareness is not consistently represented on the controller.
 
-5. Independent navigator architectures require expanded requirements allocation and control parity.
-
----
+5. CDI functionality appears available on FMS1 but not consistently exposed on FMS2.
 
 ## Future Work
 
 - Functional decomposition
 - Requirements traceability matrix
 - Human factors assessment
-- Operational hazard analysis
 - Architecture recommendations
 - Product enhancement proposals
+
+## Author
+
+Chineye J. Okowi
+
+Systems Engineering | Aviation Safety | Data Engineering
+
+GitHub: https://github.com/flyawichi
+LinkedIn: https://www.linkedin.com/in/chineye-o-19860391/
