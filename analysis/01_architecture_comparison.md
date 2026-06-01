@@ -89,3 +89,22 @@ Independent map state
 Independent flight planning capability
 Independent procedure management
 Independent navigation source selection
+
+### Operational Model
+
+               |                              |
+          GTN650/750 #1                  GTN650/750 #2
+             (FMS1)                         (FMS2)
+          Independent System            Independent System
+
+ Independent System      Independent System
+
+### Controller Design Implication
+
+FMS2 requires complete operational parity with FMS1.
+
+Any function available on Navigator 1 should be available on Navigator 2 unless restricted by the actual avionics manufacturer.
+
+### Observed Result
+
+GTN support currently exceeds equivalent GNS support, suggesting architecture-specific implementation rather than a generalized navigator abstraction.
