@@ -1,11 +1,11 @@
 # Systems_Engineering_Assessment
 
-##Purpose
+## Purpose
 
 Evaluate whether controller behavior is consistent with
 the operational architecture of the target avionics system.
 
-##Scope
+## Scope
 
 - Garmin G1000
 - Garmin GNS430/530
@@ -13,7 +13,7 @@ the operational architecture of the target avionics system.
 - Octavi IFR-1 Controller
 - MobiFlight Integration Layer
 
-##Method
+## Method
 
 1. Architecture Review
 2. Functional Evaluation
@@ -21,7 +21,7 @@ the operational architecture of the target avionics system.
 4. Human Factors Assessment
 5. Requirements Derivation
 
-##Assumptions
+## Assumptions
 
 - Simulator faithfully represents avionics behavior.
 - Controller abstraction is intended to support multiple avionics architectures.
