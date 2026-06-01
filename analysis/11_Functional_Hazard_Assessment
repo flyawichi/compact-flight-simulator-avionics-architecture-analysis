@@ -8,7 +8,7 @@ The purpose is to identify controller-level functions, potential functional fail
 
 > **Note:** This document is an independent systems engineering exercise conducted within a flight simulation environment. It is not a certification-level Functional Hazard Assessment, System Safety Assessment, or aircraft-level safety analysis.
 
----
+
 
 ## FHA Scope
 
@@ -35,7 +35,7 @@ The scope does not include:
 - Fault tree analysis
 - Failure modes and effects analysis
 
----
+
 
 ## System Context
 
@@ -48,7 +48,7 @@ Two primary avionics architecture types are considered:
 | Integrated Avionics | Garmin G1000, G3000, G5000 | FMS1 and FMS2 operate as interfaces to a shared avionics system |
 | Independent Navigators | Garmin GNS430/530, GTN650/750 | FMS1 and FMS2 represent separate navigator systems |
 
----
+
 
 ## Function List
 
@@ -65,7 +65,7 @@ Two primary avionics architecture types are considered:
 | F-009 | Mode Annunciation | Provides visual indication of active mode or shifted state |
 | F-010 | Architecture Profile Selection | Allows behavior to align with integrated or independent avionics architectures |
 
----
+
 
 ## Functional Failure Conditions
 
@@ -82,7 +82,7 @@ Two primary avionics architecture types are considered:
 | FC-009 | Architecture Profile Selection | Controller uses integrated avionics assumptions while operating independent navigators |
 | FC-010 | Control Allocation | High-frequency IFR functions require shifted inputs unnecessarily |
 
----
+
 
 ## FHA Assessment Table
 
@@ -99,7 +99,7 @@ Two primary avionics architecture types are considered:
 | F-009 | Mode Annunciation | Active state not visible | Pilot must verify state through trial, memory, or display inspection | Expose and drive LED states for active modes |
 | F-010 | Architecture Profile Selection | Wrong architecture model applied | Functional mismatch between controller behavior and avionics design | Add Integrated Avionics Mode and Independent Navigator Mode |
 
----
+
 
 ## Effects by Architecture Type
 
@@ -111,7 +111,7 @@ Two primary avionics architecture types are considered:
 | Cursor state not annunciated | Increases verification burden | May reduce confidence in FMS2 map/cursor operation |
 | Pan/Zoom unavailable on FMS2 | May be acceptable depending on display role | Reduces independent map control for Navigator 2 |
 
----
+
 
 ## Qualitative Effect Categories
 
@@ -127,7 +127,7 @@ Instead, effects are described using qualitative operational categories.
 | Workflow Impact | Function disrupts expected pilot workflow |
 | Training Transferability Impact | Function reduces similarity between simulator workflow and real cockpit workflow |
 
----
+
 
 ## Functional Effect Summary
 
@@ -144,7 +144,7 @@ Instead, effects are described using qualitative operational categories.
 | FC-009 | Incorrect architecture model applied | Workflow Impact |
 | FC-010 | High-frequency IFR functions require shifted inputs | Workload Impact |
 
----
+
 
 ## Derived Safety-Oriented Requirements
 
@@ -161,7 +161,7 @@ Instead, effects are described using qualitative operational categories.
 | FHA-REQ-009 | The controller shall support Integrated Avionics Mode and Independent Navigator Mode | FC-009 |
 | FHA-REQ-010 | The controller should prioritize high-frequency IFR functions for base-layer access where possible | FC-010 |
 
----
+
 
 ## Mitigation Strategy
 
@@ -188,7 +188,7 @@ The strongest near-term mitigation is to improve profile architecture and mode a
 | MIT-008 | Add five-way directional control | Improve cursor and map navigation |
 | MIT-009 | Add profile-specific labeling | Improve usability across avionics types |
 
----
+
 
 ## FHA Findings
 
@@ -213,7 +213,7 @@ This distinction changes the requirements for:
 - Shift-state awareness
 - Profile architecture
 
----
+
 
 ## FHA Conclusion
 
