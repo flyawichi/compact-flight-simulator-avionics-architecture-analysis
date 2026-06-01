@@ -1,18 +1,18 @@
-Problem
+## Problem
 
 FMS2 functionality differs between avionics architectures.
 
-Observed Symptoms
+## Observed Symptoms
 
 - Missing CDI support
 - Missing cursor annunciation
 - Missing map mode indication
 
-Root Cause
+## Root Cause
 
 Controller abstraction assumes shared-system architecture.
 
-Contributing Factors
+## Contributing Factors
 
 - G1000-centric implementation
 - Navigator independence not modeled
