@@ -2,7 +2,7 @@
 
 Implement Architecture Profiles
 
-Profile A:
+### Profile A:
 Integrated Avionics
 
 Examples:
@@ -10,7 +10,7 @@ Examples:
 - G3000
 - G5000
 
-Profile B:
+### Profile B:
 Independent Navigators
 
 Examples:
